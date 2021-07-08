@@ -1,0 +1,35 @@
+app: athazagoraphobia-server
+service: athazagoraphobia-server
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
+
+package:
+  patterns:
+    - '!.log/**'
+    - '!tmp/**'
+    - '!.env*'
+    - '!.*'
+    - '!scripts/**'
+    - '!README.md'
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    host: 0.0.0.0
+    httpPort: 3000
+
+functions:
+  api:
+    handler: src/index.hello
+    events:
+      - httpApi:
+          method: GET
+          path: /

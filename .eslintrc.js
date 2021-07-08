@@ -31,4 +31,14 @@ module.exports = {
     ],
     'no-unsafe-optional-chaining': 'error',
   },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+      },
+    },
+  },
 };

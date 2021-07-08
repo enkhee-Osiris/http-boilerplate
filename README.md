@@ -4,5 +4,3 @@
 
 - [ ] Apollo
 - [ ] Prisma
-- [ ] Fastify
-- [ ] Postgres

@@ -2,6 +2,8 @@ FROM node:14-alpine
 
 WORKDIR /home/node/app
 
+RUN npm install -g serverless
+
 COPY --chown=node:node package*.json ./
 
 RUN npm install
@@ -12,4 +14,4 @@ EXPOSE 3000
 
 USER node
 
-CMD ["sh", "-c", "npm run build && npm start"]
+CMD ["npm", "start"]

@@ -5,5 +5,5 @@ package.json
 .cache
 .log
 
-dist
-dist/*
+.build
+.build/*
