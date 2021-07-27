@@ -2,7 +2,9 @@ FROM node:14-alpine
 
 WORKDIR /home/node/app
 
-RUN npm install -g serverless
+RUN apk add --no-cache --virtual .gyp make gcc g++ python  \
+    && npm install -g serverless \
+    && apk del .gyp
 
 COPY --chown=node:node package*.json ./
 

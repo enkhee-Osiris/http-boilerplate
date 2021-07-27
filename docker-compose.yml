@@ -3,12 +3,13 @@ version: '3.9'
 services:
   api:
     build: .
+    user: '1000:984'
     ports:
       - '3000:3000'
     restart: always
     volumes:
       - .:/home/node/app
-      - ./node_modules:/home/node/app/node_modules
+      - /home/node/app/node_modules
     environment:
       DATABASE_URL: 'postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}'
       NODE_ENV: '${NODE_ENV}'
