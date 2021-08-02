@@ -6,7 +6,7 @@
     "module": "commonjs",
     "strict": true,
     "strictNullChecks": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "alwaysStrict": true,
     "lib": ["es5", "es6", "es7", "es2017", "es2018", "es2019", "es2020", "esnext"],
     "outDir": "./.build",

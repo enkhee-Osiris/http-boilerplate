@@ -24,12 +24,17 @@ plugins:
 custom:
   serverless-offline:
     host: 0.0.0.0
-    httpPort: 3000
+    httpPort: 4000
 
 functions:
   api:
     handler: src/index.hello
     events:
-      - httpApi:
+      - http:
           method: GET
           path: /
+          cors: true
+      - http:
+          method: '*'
+          path: /graphql
+          cors: true

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "format": "npm run format:pretty; npm run lint:fix",
     "format:pretty": "prettier --config ./.prettierrc.js --write \"./src\"",
     "lint": "eslint -c ./.eslintrc.js --ext .ts --ext .js \"./src\"",
@@ -26,13 +27,19 @@
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.3.2",
-    "serverless-offline": "^7.0.0",
+    "serverless-offline": "^8.0.0",
     "serverless-plugin-typescript": "^1.1.9",
+    "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
   "dependencies": {
+    "@prisma/client": "^2.28.0",
+    "apollo-server-koa": "^3.1.1",
+    "graphql": "^15.5.1",
+    "graphql-scalars": "^1.10.0",
     "koa": "^2.13.1",
     "koa-router": "^10.0.0",
+    "prisma": "^2.28.0",
     "serverless-http": "^2.7.0"
   }
 }

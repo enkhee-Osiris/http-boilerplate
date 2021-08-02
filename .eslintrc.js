@@ -30,6 +30,7 @@ module.exports = {
       },
     ],
     'no-unsafe-optional-chaining': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   settings: {
     'import/parsers': {
