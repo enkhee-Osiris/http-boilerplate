@@ -7,6 +7,8 @@ provider:
   name: aws
   runtime: nodejs14.x
   lambdaHashingVersion: '20201221'
+  httpApi:
+    cors: true
 
 package:
   patterns:
@@ -24,17 +26,15 @@ plugins:
 custom:
   serverless-offline:
     host: 0.0.0.0
-    httpPort: 4000
+    httpPort: 3001
 
 functions:
   api:
     handler: src/index.hello
     events:
-      - http:
+      - httpApi:
           method: GET
           path: /
-          cors: true
-      - http:
+      - httpApi:
           method: '*'
           path: /graphql
-          cors: true

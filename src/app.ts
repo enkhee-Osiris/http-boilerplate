@@ -1,35 +1,29 @@
 import Koa from 'koa';
-import Router from 'koa-router';
-import { ApolloServer, gql } from 'apollo-server-koa';
+import { ApolloServer } from 'apollo-server-koa';
+import { PrismaClient } from '@prisma/client';
 
-import { context } from './context';
-import { typeDefs, resolvers } from './schema';
+import { createRouter } from './routes';
+import { exceptionMiddleware } from './middlewares';
+import schema from './schemas';
 
 async function createApp() {
-  const server = new ApolloServer({
-    typeDefs: gql(typeDefs),
-    context,
-    resolvers,
-  });
+  const prisma = new PrismaClient();
 
-  await server.start();
+  const apolloServer = new ApolloServer({
+    schema,
+    context: () => ({
+      prisma,
+    }),
+  });
+  await apolloServer.start();
 
   const app = new Koa();
-  const router = new Router();
+  const router = createRouter(apolloServer);
 
-  server.applyMiddleware({ app });
+  app.use(exceptionMiddleware);
 
-  router.get('/', async (ctx, next) => {
-    ctx.body = { msg: 'Hello World!' };
-
-    await next();
-  });
-
-  router.get('/graphql', server.getMiddleware());
-
-  router.post('/graphql', server.getMiddleware());
-
-  app.use(router.routes()).use(router.allowedMethods());
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 
   return app;
 }
