@@ -1,5 +1,13 @@
 # Athazagoraphobia server
 
+## Stack
+
+```txt
+Prisma
+Koa
+Apollo GraphQL
+```
+
 ## Prisma
 
 ### Production Migration
