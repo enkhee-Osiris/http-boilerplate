@@ -3,9 +3,11 @@
 ## Stack
 
 ```txt
+Typescript
 Prisma
 Koa
 Apollo GraphQL
+Serverless
 ```
 
 ## Prisma
