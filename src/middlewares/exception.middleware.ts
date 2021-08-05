@@ -10,6 +10,8 @@ async function exceptionMiddleware(ctx: Koa.Context, next: Koa.Next) {
       ctx.body = err.toObject();
       ctx.status = err.statusCode;
     } else {
+      console.error(err.message);
+
       ctx.body = { message: 'Unexpected error.', statusCode: 500 };
       ctx.status = 500;
     }
