@@ -1,29 +1,22 @@
-import { gql } from 'apollo-server-koa';
+import { gql } from 'apollo-server-core';
 import { DateTimeResolver } from 'graphql-scalars';
+import { hasher } from '../../utils/user.util';
 
-import type { PostCreateInput } from './Post';
-
-interface UserCreateInput {
-  email: string;
-  name?: string;
-  posts?: PostCreateInput[];
-}
-
-interface UserUniqueInput {
-  id?: number;
-  email?: string;
-}
+import prismaClient from '../../utils/prismaClient';
 
 const typeDef = gql`
   type User {
-    email: String!
     id: Int!
+    email: String!
+    salt: String!
+    password: String!
     name: String
     posts: [Post!]!
   }
 
   input UserCreateInput {
     email: String!
+    password: String!
     name: String
     posts: [PostCreateInput!]
   }
@@ -46,14 +39,14 @@ const typeDef = gql`
 
 const resolvers = {
   Query: {
-    Users: (_root, _args, context) => {
-      return context.prisma.user.findMany();
+    Users: (_root, _args) => {
+      return prismaClient.user.findMany();
     },
-    allUsers: (_root, _args, context) => {
-      return context.prisma.user.findMany();
+    allUsers: (_root, _args) => {
+      return prismaClient.user.findMany();
     },
-    draftsByUser: (_root, args: { userUniqueInput: UserUniqueInput }, context) => {
-      return context.prisma.user
+    draftsByUser: (_root, args: { userUniqueInput: UserUniqueInput }) => {
+      return prismaClient.user
         .findUnique({
           where: {
             id: args.userUniqueInput.id || undefined,
@@ -68,15 +61,19 @@ const resolvers = {
     },
   },
   Mutation: {
-    signupUser: (_root, args: { data: UserCreateInput }, context) => {
+    signupUser: (_root, args: { data: UserCreateInput }) => {
       const postData = args.data.posts?.map((post) => {
         return { title: post.title, content: post.content || undefined };
       });
 
-      return context.prisma.user.create({
+      const { salt, hash: password } = hasher(args.data.password);
+
+      return prismaClient.user.create({
         data: {
           name: args.data.name,
           email: args.data.email,
+          salt,
+          password,
           posts: {
             create: postData,
           },
@@ -86,8 +83,8 @@ const resolvers = {
   },
   DateTime: DateTimeResolver,
   User: {
-    posts: (root, _args, context) => {
-      return context.prisma.user
+    posts: (root, _args) => {
+      return prismaClient.user
         .findUnique({
           where: { id: root?.id },
         })

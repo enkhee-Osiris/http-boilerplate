@@ -15,6 +15,8 @@ CREATE TABLE "Post" (
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "salt" TEXT NOT NULL,
     "name" TEXT,
 
     PRIMARY KEY ("id")

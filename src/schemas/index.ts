@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { gql } from 'apollo-server-koa';
+import { gql } from 'apollo-server-core';
 import merge from 'lodash/merge';
 
 import { typeDef as User, resolvers as UserResolvers } from './types/User';

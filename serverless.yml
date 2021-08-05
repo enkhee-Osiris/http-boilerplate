@@ -33,6 +33,12 @@ functions:
     handler: src/index.hello
     events:
       - httpApi:
+          method: POST
+          path: /sign-up
+      - httpApi:
+          method: POST
+          path: /sign-in
+      - httpApi:
           method: GET
           path: /
       - httpApi:

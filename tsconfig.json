@@ -1,19 +1,25 @@
 {
-  "include": ["./src/**/*"],
+  "include": ["src"],
   "exclude": ["node_modules", "**/*.spec.ts"],
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "strict": true,
-    "strictNullChecks": true,
-    "noImplicitAny": false,
+    "types": [],
     "alwaysStrict": true,
-    "lib": ["es5", "es6", "es7", "es2017", "es2018", "es2019", "es2020", "esnext"],
-    "outDir": "./.build",
     "baseUrl": "./",
-    "rootDir": "./",
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es5", "es6", "es7", "es2017", "es2018", "es2019", "es2020", "esnext"],
+    "module": "commonjs",
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "outDir": "./.build",
+    "rootDir": "./",
+    "skipLibCheck": false,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "ES2020",
+    "pretty": true,
+    "typeRoots": ["node_modules/@types", "src/types"]
   }
 }

@@ -2,7 +2,7 @@ import Koa from 'koa';
 
 import HttpError from '../utils/HttpError';
 
-async function exceptionHandler(ctx: Koa.Context, next: Koa.Next) {
+async function exceptionMiddleware(ctx: Koa.Context, next: Koa.Next) {
   try {
     await next();
   } catch (err) {
@@ -16,4 +16,4 @@ async function exceptionHandler(ctx: Koa.Context, next: Koa.Next) {
   }
 }
 
-export default exceptionHandler;
+export default exceptionMiddleware;

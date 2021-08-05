@@ -20,7 +20,10 @@ module.exports = {
     'no-nested-ternary': 'off',
     'no-underscore-dangle': 'off',
     'no-use-before-define': 'off',
-    'no-unused-vars': [
+    'no-unused-vars': 'off',
+    'no-unsafe-optional-chaining': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         args: 'all',
@@ -29,8 +32,6 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
-    'no-unsafe-optional-chaining': 'error',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
   settings: {
     'import/parsers': {

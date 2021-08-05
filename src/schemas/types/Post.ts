@@ -1,21 +1,8 @@
-import { gql } from 'apollo-server-koa';
+import { gql } from 'apollo-server-core';
 import { DateTimeResolver } from 'graphql-scalars';
 
 import HttpError from '../../utils/HttpError';
-
-enum SortOrder {
-  asc = 'asc',
-  desc = 'desc',
-}
-
-interface PostOrderByUpdatedAtInput {
-  updatedAt: SortOrder;
-}
-
-export interface PostCreateInput {
-  title: string;
-  content?: string;
-}
+import prismaClient from '../../utils/prismaClient';
 
 const typeDef = gql`
   scalar DateTime
@@ -59,14 +46,14 @@ const typeDef = gql`
 
 const resolvers = {
   Query: {
-    Posts: (_root, _args, context) => {
-      return context.prisma.post.findMany();
+    Posts: (_root, _args) => {
+      return prismaClient.post.findMany();
     },
-    allUsers: (_root, _args, context) => {
-      return context.prisma.user.findMany();
+    allUsers: (_root, _args) => {
+      return prismaClient.user.findMany();
     },
-    postById: (_root, args: { id: number }, context) => {
-      return context.prisma.post.findUnique({
+    postById: (_root, args: { id: number }) => {
+      return prismaClient.post.findUnique({
         where: { id: args.id || undefined },
       });
     },
@@ -78,7 +65,6 @@ const resolvers = {
         take: number;
         orderBy: PostOrderByUpdatedAtInput;
       },
-      context,
     ) => {
       const or = args.searchString
         ? {
@@ -89,7 +75,7 @@ const resolvers = {
           }
         : {};
 
-      return context.prisma.post.findMany({
+      return prismaClient.post.findMany({
         where: {
           published: true,
           ...or,
@@ -101,8 +87,8 @@ const resolvers = {
     },
   },
   Mutation: {
-    createDraft: (_root, args: { data: PostCreateInput; authorEmail: string }, context) => {
-      return context.prisma.post.create({
+    createDraft: (_root, args: { data: PostCreateInput; authorEmail: string }) => {
+      return prismaClient.post.create({
         data: {
           title: args.data.title,
           content: args.data.content,
@@ -112,16 +98,16 @@ const resolvers = {
         },
       });
     },
-    togglePublishPost: async (_root, args: { id: number }, context) => {
+    togglePublishPost: async (_root, args: { id: number }) => {
       try {
-        const post = await context.prisma.post.findUnique({
+        const post = await prismaClient.post.findUnique({
           where: { id: args.id || undefined },
           select: {
             published: true,
           },
         });
 
-        const updatedPost = await context.prisma.post.update({
+        const updatedPost = await prismaClient.post.update({
           where: { id: args.id || undefined },
           data: { published: !post?.published },
         });
@@ -131,16 +117,16 @@ const resolvers = {
         throw new HttpError(400, `Post with ID ${args.id} does not exist in the database.`);
       }
     },
-    deletePost: (_root, args: { id: number }, context) => {
-      return context.prisma.post.delete({
+    deletePost: (_root, args: { id: number }) => {
+      return prismaClient.post.delete({
         where: { id: args.id },
       });
     },
   },
   DateTime: DateTimeResolver,
   Post: {
-    author: (root, _args, context) => {
-      return context.prisma.post
+    author: (root, _args) => {
+      return prismaClient.post
         .findUnique({
           where: { id: root?.id },
         })

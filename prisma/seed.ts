@@ -1,11 +1,15 @@
 import { PrismaClient, Prisma } from '@prisma/client';
+import { hasher } from '../src/utils/user.util'
 
 const prisma = new PrismaClient();
+const { salt, hash: password } = hasher('password');
 
 const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Alice',
     email: 'alice@prisma.io',
+    salt,
+    password,
     posts: {
       create: [
         {
@@ -19,6 +23,8 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Nilu',
     email: 'nilu@prisma.io',
+    salt,
+    password,
     posts: {
       create: [
         {
@@ -32,6 +38,8 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Mahmoud',
     email: 'mahmoud@prisma.io',
+    salt,
+    password,
     posts: {
       create: [
         {
